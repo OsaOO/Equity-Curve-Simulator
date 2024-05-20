@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Risk to Reward Simulator</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <h1>Risk to Reward Simulator</h1>
+    <form method="post">
+        <label for="winrate">Win Rate (%):</label>
+        <input type="range" id="winrate" name="winrate" min="0" max="11"><br>
+        <p>Value: <output id="value"></output></p>
+
+        <label for="risk_percentage">Risk Percentage (%):</label>
+        <input type="range" id="risk_percentage" name="risk_percentage" min="0" max="100"><br>
+
+        <label for="risk_reward">Risk Reward Ratio:</label>
+        <input type="range" id="risk_reward" name="risk_reward" min="0" max="11"><br>
+
+        <label for="no_trades">Number of Trades:</label>
+        <input type="range" id="no_trades" name="no_trades" min="1" max="100"><br>
+
+        <label for="starting_balance">Starting Balance:</label>
+        <input type="range" id="starting_balance" name="starting_balance" min="100" max="100000"><br>
+
+        <button type="submit">Run Simulation</button>
+    </form>
+    <div>
+        {{ graph_html|safe }}
+    </div>
+</body>
+</html>
