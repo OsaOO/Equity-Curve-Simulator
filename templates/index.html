@@ -3,32 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Risk to Reward Simulator</title>
+    <title>Equity Curve Simulator</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles.css') }}">
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 <body>
-    <h1>Risk to Reward Simulator</h1>
-    <form method="post">
-        <label for="winrate">Win Rate (%):</label>
-        <input type="range" id="winrate" name="winrate" min="0" max="11"><br>
-        <p>Value: <output id="value"></output></p>
+    <div class="container">
+        <h1>Equity Curve Simulator</h1>
+        <div class="controls">
+            <div class="control">
+                <label for="balance">Starting Balance:</label>
+                <input type="range" id="balance" min="1000" max="100000" step="1000" value="10000" oninput="updateLabel('balance-label', this.value)">
+                <span id="balance-label">10000</span>
+            </div>
+            
+            <div class="control">
+                <label for="win-rate">Win Rate (%):</label>
+                <input type="range" id="win-rate" min="0" max="100" step="1" value="35" oninput="updateLabel('win-rate-label', this.value)">
+                <span id="win-rate-label">35</span>
+            </div>
 
-        <label for="risk_percentage">Risk Percentage (%):</label>
-        <input type="range" id="risk_percentage" name="risk_percentage" min="0" max="100"><br>
+            <div class="control">
+                <label for="risk-percentage">Risk Percentage (%):</label>
+                <input type="range" id="risk-percentage" min="1" max="10" step="1" value="2" oninput="updateLabel('risk-percentage-label', this.value)">
+                <span id="risk-percentage-label">2</span>
+            </div>
 
-        <label for="risk_reward">Risk Reward Ratio:</label>
-        <input type="range" id="risk_reward" name="risk_reward" min="0" max="11"><br>
+            <div class="control">
+                <label for="risk-reward-ratio">Risk-to-Reward Ratio:</label>
+                <input type="range" id="risk-reward-ratio" min="0.5" max="10" step="0.1" value="2.5" oninput="updateLabel('risk-reward-ratio-label', this.value)">
+                <span id="risk-reward-ratio-label">2.5</span>
+            </div>
 
-        <label for="no_trades">Number of Trades:</label>
-        <input type="range" id="no_trades" name="no_trades" min="1" max="100"><br>
+            <div class="control">
+                <label for="number-of-trades">Number of Trades:</label>
+                <input type="range" id="number-of-trades" min="100" max="1000" step="100" value="300" oninput="updateLabel('number-of-trades-label', this.value)">
+                <span id="number-of-trades-label">300</span>
+            </div>
 
-        <label for="starting_balance">Starting Balance:</label>
-        <input type="range" id="starting_balance" name="starting_balance" min="100" max="100000"><br>
+            <div class="control">
+                <label for="number-of-simulations">Number of Simulations:</label>
+                <input type="range" id="number-of-simulations" min="1" max="100" step="1" value="10" oninput="updateLabel('number-of-simulations-label', this.value)">
+                <span id="number-of-simulations-label">10</span>
+            </div>
 
-        <button type="submit">Run Simulation</button>
-    </form>
-    <div>
-        {{ graph_html|safe }}
+            <button onclick="runSimulation()">Run Simulation</button>
+        </div>
+        <div id="graph"></div>
     </div>
+    <script src="{{ url_for('static',filename='script.js') }}"></script>
 </body>
 </html>
