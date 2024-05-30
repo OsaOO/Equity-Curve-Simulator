@@ -6,6 +6,10 @@ Last Updated By: OsaO
 Last Updated Date: 20/05/2024
 
 Summary: 
+
+ToDo:
+- Update and Improve UI (make look nicer / more modern)
+- Add Different risk strategies (i.e not only fixed risk)
 """
 
 from flask import Flask, render_template, request, jsonify
