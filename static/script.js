@@ -2,6 +2,23 @@ function updateLabel(labelId, value) {
     document.getElementById(labelId).textContent = value;
 }
 
+function firstLoad(){
+    const layout = {
+        title: 'Equity Curves',
+        xaxis: { title: 'Number of Trades' },
+        yaxis: { title: 'Account Balance' },
+        template: 'plotly_dark',
+        legend: {"orientation": "h",
+            x: 0,
+            y: -0.35
+        },
+        hovermode: 'closest',
+    };
+
+    Plotly.newPlot('graph', {}, layout, {displayModeBar: false});
+
+}
+
 function runSimulation() {
     const balance = parseFloat(document.getElementById('balance').value);
     const winRate = parseFloat(document.getElementById('win-rate').value);
@@ -44,9 +61,14 @@ function runSimulation() {
             title: 'Equity Curves',
             xaxis: { title: 'Number of Trades' },
             yaxis: { title: 'Account Balance' },
-            template: 'plotly_dark'
+            template: 'plotly_dark',
+            legend: {"orientation": "h",
+                x: 0,
+                y: -0.35
+            },
+            hovermode: 'closest',
         };
 
-        Plotly.newPlot('graph', traces, layout);
+        Plotly.newPlot('graph', traces, layout, {displayModeBar: false});
     });
 }
