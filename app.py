@@ -32,19 +32,20 @@ def simulate():
     data = request.json
     print(data)
     simulator = RiskSimulation(
-        balance = 100000,
+        balance = data['balance'],
         winrate=data['win_rate'] / 100,
         riskPercentage=2,
         riskReward=data['risk_reward_ratio'],
         noTrades=data['number_of_trades'],
         noSimulations=data['number_of_simulations'],
     )
-    simulator.runSimulation()
-    outcomes = simulator.returnOutcome()
+
+    # Runs the simulations and records the outcome 
+    outcomes = simulator.runSimulation()
     
+    # Plots the outcome equity graph
     x_values = np.arange(0, data['number_of_trades'] + 1, 1).tolist()
     return jsonify({'outcomes': outcomes, 'x_values': x_values})
-
 
 if __name__ == '__main__':
     app.run(debug=True)

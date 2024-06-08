@@ -49,12 +49,11 @@ class RiskSimulation:
         for x in threads:
             x.join()
         
-        ### All threads should be completed by this point ###      
-    
-    def returnOutcome(self):
+        ### All threads should be completed by this point ###
+
         # Returns the outcome of the runs generated
         return self.outcomes
-    
+        
     def FixedRiskSim(self, accBalance):
         """
         Fixed Risk Simulation
@@ -113,8 +112,8 @@ if __name__ == "__main__":
     noSimulations = 7
     
     # Runs Simulator class
-    sim = RiskSimulation(balance, winrate, riskPercentage, riskReward, noTrades, noSimulations)
-    
+    #sim = RiskSimulation(balance, winrate, riskPercentage, riskReward, noTrades, noSimulations)
+    print("here")
 
 
 
