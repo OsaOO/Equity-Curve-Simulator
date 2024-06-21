@@ -167,6 +167,8 @@ def plot(xRange, simOutputs):
     plt.show()
 
 if __name__ == "__main__":
+    import StatsCalc
+
     # Debugging / Testing
     balance = 1000
     winrate = 0.60
@@ -177,12 +179,15 @@ if __name__ == "__main__":
     
     # Runs Simulator class
     simOutputs = runSimulation(balance, winrate, riskPercentage, riskReward, noTrades, noSimulations)
+    #print(simOutputs)
 
     # Gets equity for each run
     #print([output.equityTracker for output in simOutputs])    
 
     # Plots the data
-    plot(noTrades, simOutputs)
+    #plot(noTrades, simOutputs)
+
+    print(StatsCalc.calculate(simOutputs))
 
     # End Of Code
 
