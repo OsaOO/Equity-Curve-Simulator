@@ -3,7 +3,7 @@ Author: OsaO
 Date Created: 19/05/2024
 
 Last Updated By: OsaO
-Last Updated Date: 30/05/2024
+Last Updated Date: 21/06/2024
 
 Summary:
 Risk simulator showing potential equity curve for a trading strategy with defined parameters.
@@ -39,7 +39,6 @@ class SimulationItem:
         if self.simType == "FixedRisk":
             # Runs Fixed Risk Simulation
             self.FixedRiskSim()
-
             # Once has wrapped up, needs another check for counters to check last run (should maybe be entered below here)
         elif self.simType == "0.5%":
             # TO BE ADDED
@@ -48,21 +47,19 @@ class SimulationItem:
             # Invalid Simulation type provided
             return False
     def outcomeHandling(self, outcome, tradeNo):
-        PnL = 0 # Sets PnL to default value 
-        print(tradeNo)
         # Handles a trades outcome regarding to the stats being collected
         # Also checks if it is the last trade in the simulation
             # If last trade, checks if the current ending streak greater than the recorded 
             # This is required for example when the simulation ends on the longest winning / losing streak, so that that streak is recorded
 
+        PnL = 0 # Sets PnL to default value 
+        
         if outcome == "W":
             # Winning trade
             PnL = (self.accBalance * (self.riskPercentage/100)) * self.riskReward
             self.accBalance += PnL # Winning trade, so PnL increases
 
             ### Updates required stats below ###
-
-            
 
             # Winning trade, so losing streak has ended
             # Checks to see if losing counter is greater than max loss
@@ -148,51 +145,20 @@ def runSimulation(balance, winrate, riskPercentage, riskReward, noTrades, noSimu
     
     ### All threads should be completed by this point ###
 
-    # Returns the outcome of the runs generated
+    # Returns the outcome of the runs 
     return simulations
 
- 
-def FixedRiskSim(self, accBalance):
-    """
-    Fixed Risk Simulation
-        - Percentage risked per trade kept constant, not adaped / changed with losses
-    """
-    # Adds starting balance to balance tracking list
-    balanceTracking = [accBalance]
-
-    for i in range(self.noTrades):
-        """
-        Trade outcome randomly chosen / allocated
-            - W = Winning trade
-            - L = Losing trade
-        """
-        outcome = (choices(["W","L"], weights=[self.winrate, (1-self.winrate)]))[0]
-        PnL = 0
-
-        if outcome == "W":
-            # Winning trade
-            PnL = (accBalance * (self.riskPercentage/100)) * self.riskReward
-            accBalance += PnL # Winning trade, so PnL increases
-        else:
-            #outcome = "L" -> Losing trade
-            PnL = (accBalance * (self.riskPercentage/100))
-            accBalance -= PnL # Losing trade so PnL reduces
-
-        # Appends new balance to tracking list  
-        balanceTracking.append(accBalance)
-    (self.outcomes).append(balanceTracking)
-
-def plot(self):
+def plot(xRange, simOutputs):
     """
     Not used by the app - for testing / debugging within script only
     """
     # Gets list of xValues used to plot graph
     # xValues = number of trades, so generates list starting from 0 to number of trades with a step of 1
-    xValues = np.arange(0, self.noTrades+1, 1).tolist()
+    xValues = np.arange(0, xRange+1, 1).tolist()
 
     # Plots each of the outcomes
-    for outcome in self.outcomes:
-        plt.plot(xValues, outcome)
+    for sim in simOutputs:
+        plt.plot(xValues, sim.equityTracker)
 
     # Sets chart environemnt
     plt.xlabel('Number of Trades')
@@ -206,12 +172,19 @@ if __name__ == "__main__":
     winrate = 0.60
     riskPercentage = 1
     riskReward = 2
-    noTrades = 5
+    noTrades = 50
     noSimulations = 7
     
     # Runs Simulator class
-    sim = runSimulation(balance, winrate, riskPercentage, riskReward, noTrades, noSimulations)
-    print("here")
+    simOutputs = runSimulation(balance, winrate, riskPercentage, riskReward, noTrades, noSimulations)
+
+    # Gets equity for each run
+    #print([output.equityTracker for output in simOutputs])    
+
+    # Plots the data
+    plot(noTrades, simOutputs)
+
+    # End Of Code
 
 
 
