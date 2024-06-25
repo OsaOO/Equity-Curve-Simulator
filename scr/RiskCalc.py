@@ -9,6 +9,9 @@ Summary:
 Risk simulator showing potential equity curve for a trading strategy with defined parameters.
     - Parameters: Starting Balance, Strategy Win Rate, Risk Percentage, Average trade Risk-to-Reward,
                   Number of trades taken, Number of simulations wanted 
+
+TO-DO:
+    - Calculations assume balance > 0 (not negative). E,g max drawdown calculation. Something to think about
 """
 from random import choices
 import matplotlib.pyplot as plt
@@ -30,6 +33,9 @@ class SimulationItem:
         self.riskPercentage = riskPercentage
         self.riskReward = riskReward
         self.noTrades = noTrades
+
+        self.peakValue = 0 # Records peak value used for calculating max drawdown
+        self.maxDrawdown = 0 # Max drawdown (2DP)
 
         self.maxWin = 0 # Maximum Consecutive wins
         self.winCounter = 0 # Consecutive wins counter
@@ -61,9 +67,15 @@ class SimulationItem:
 
             ### Updates required stats below ###
 
-            # Winning trade, so losing streak has ended
-            # Checks to see if losing counter is greater than max loss
+            # Winning trade
+            # Checks to see if it is first winning trade (there has been a run of atleast 1 losing trade)
             if (self.winCounter == 0): # Fist winning trade after loss(es)
+                # Calculates the drawdown encountered, and sees if its greater than recorded drawdown
+                if (self.peakValue > 0):
+                    newdd = round((((self.peakValue - self.equityTracker[-1]) / self.peakValue) * 100), 2)
+                    if newdd > self.maxDrawdown: self.maxDrawdown = newdd
+
+                # Checks to see if losing counter is greater than max loss
                 if self.lossCounter > self.maxLoss:
                     self.maxLoss = self.lossCounter
                 self.lossCounter = 0 # Resets loss counter back to zero
@@ -80,9 +92,10 @@ class SimulationItem:
 
             ### Updates required stats below ###
 
-            # Losing trade, so winning streak has ended
-            # Checks to see if winning counter is greater than max loss
+            # Losing trade
+            # Checks to see if it is first losing trade (there has been a run of atleast 1 winning trade)
             if (self.lossCounter == 0): # Fist losing trade after win(s)
+                self.peakValue = (self.equityTracker)[-1] #Records previous balance as peak for max drawdown calculation
                 if self.winCounter > self.maxWin:
                     self.maxWin = self.winCounter
                 self.winCounter = 0
@@ -188,7 +201,7 @@ if __name__ == "__main__":
     #plot(noTrades, simOutputs)
 
     print(StatsCalc.calculate(simOutputs))
-
+    pass
     # End Of Code
 
 
