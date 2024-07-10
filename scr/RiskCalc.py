@@ -188,14 +188,11 @@ if __name__ == "__main__":
     riskPercentage = 1
     riskReward = 2
     noTrades = 50
-    noSimulations = 7
+    noSimulations = 50
     
     # Runs Simulator class
     simOutputs = runSimulation(balance, winrate, riskPercentage, riskReward, noTrades, noSimulations)
     #print(simOutputs)
-
-    # Gets equity for each run
-    #print([output.equityTracker for output in simOutputs])    
 
     # Plots the data
     #plot(noTrades, simOutputs)

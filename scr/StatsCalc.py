@@ -18,13 +18,8 @@ Stats to add:
 import numpy as np
 import timeit
 
-#def __init__(self, data):
-#    # Creates Numpy Array to perform calculations on
-#    self.arr = np.array(data)
-
-
-def calculate(simOutputs):
-    # Begins required calculations
+def getOverallStats(simOutputs):
+    # Gets stats relating to the overall simulation output
 
     # Creates a dictionary that stores the stats once calculated
     # This dictionary object is then returned at completion
@@ -37,74 +32,85 @@ def calculate(simOutputs):
 
     # Stats that relate to the simulation run as a whole
     
-    endBalanceAvg(simOutputs)
-    maxEquity(simOutputs)
-    minEquity(simOutputs)
-    avgMaxEquity(simOutputs)
-    avgMinEquity(simOutputs)
-    
-    # Stats that relate to an individual simulation from total simulations run
-    # RUN FUNCTIONS HERE!
-    # - Create seperte function for individual stats run
+    avgEndBalance(simOutputs)
+
+    maxEquityList = [sim.maxEquity for sim in simOutputs] # Creates list of maxEquity form all sims
+    minEquityList = [sim.minEquity for sim in simOutputs] # Creates list of minEquity form all sims
+    maxEquity(simOutputs, maxEquityList)
+    minEquity(simOutputs, minEquityList)
+    avgMaxEquity(simOutputs, maxEquityList)
+    avgMinEquity(simOutputs, minEquityList)
+
+    maxConsecWins(simOutputs)
+    maxConsecLoss(simOutputs)
+
+    maxDrawdownList = [sim.maxDrawdown for sim in simOutputs] # Creates list of maxDrawdown form all sims
+    maxDrawdown(simOutputs, maxDrawdownList)
+    avgDrawdown(simOutputs, maxDrawdownList)
 
     # Returns the stats
     return stats
 
-def endBalanceAvg(simOutputs):
+def getSingleStats():
+    # gets stats that relate to an individual simulation from total simulations run
+
+    # Returns the stats
+    return stats
+
+
+##### FUNCTIONS FOR GETING REQUIRED STATS #####
+
+def avgEndBalance(simOutputs):
     """
     Average end balance of all simulations run
     """
     endValues = [sim.accBalance for sim in simOutputs]
     avg = round(sum(endValues) / len(endValues), 2)
-    stats["EndBalanceAvg"] = avg
-def maxEquity(simOutputs):
+    stats["AvgEndBalance"] = avg
+def maxEquity(simOutputs, maxEquityList):
     """
     Gets the max equity encountered from all simulations
     """
-    stats["MaxEquity"] = round(max([sim.maxEquity for sim in simOutputs]), 2)
-def minEquity(simOutputs):
+    stats["MaxEquity"] = round(max(maxEquityList), 2)
+def minEquity(simOutputs, minEquityList):
     """
     Gets the min equity encountered from all simulations
     """
-    stats["MinEquity"] = round(min([sim.minEquity for sim in simOutputs]), 2)
-def avgMaxEquity(simOutputs):
+    stats["MinEquity"] = round(min(minEquityList), 2)
+def avgMaxEquity(simOutputs, maxEquityList):
     """
     Gets the avergae max equity encountered from all simulations
     """
-    maxVals = [sim.maxEquity for sim in simOutputs]
-    avg = round(sum(maxVals) / len(maxVals),2)
+    avg = round(sum(maxEquityList) / len(maxEquityList),2)
     stats["AvgMaxEquity"] = avg
-def avgMinEquity(simOutputs):
+def avgMinEquity(simOutputs, minEquityList):
     """
     Gets the avergae min equity encountered from all simulations
     """
-    minVals = [sim.minEquity for sim in simOutputs]
-    avg = round(sum(minVals) / len(minVals),2)
+    avg = round(sum(minEquityList) / len(minEquityList),2)
     stats["AvgMinEquity"] = avg
 def maxConsecWins(simOutputs):
     """
     Gets the maximum consecutive wins encountered from all the simulations
     """
-    mWin = max([sim.MaxLoss for sim in simOutputs])
+    mWin = max([sim.maxWin for sim in simOutputs])
     stats["MaxConsecWins"] = mWin
 def maxConsecLoss(simOutputs):
     """
     Gets the maximum consecutive losses encountered from all the simulations
     """
-    mLoss = max([sim.MaxLoss for sim in simOutputs])
+    mLoss = max([sim.maxLoss for sim in simOutputs])
     stats["MaxConsecLoss"] = mLoss
-def maxDrawdown(simOutputs):
+def maxDrawdown(simOutputs, maxDrawdownList):
     """
     Gets the maximum drawdown encountered from all the simulations
     """
-    mDD = max([sim.maxDrawdown for sim in simOutputs])
-    stats["MaxDrawdown"] = mDD
-def avgDrawdown(simOutputs):
+    stats["MaxDrawdown"] = max(maxDrawdownList)
+def avgDrawdown(simOutputs, maxDrawdownList):
     """
     Gets the avergae (max) drawdown encountered from all simulations
     """
-    vals = [sim.maxDrawdown for sim in simOutputs]
-    avg = round(sum(vals) / len(vals),2)
+    avg = round(sum(maxDrawdownList) / len(maxDrawdownList),2)
     stats["AvgDrawdown"] = avg 
 
 
@@ -115,9 +121,8 @@ if __name__ == "__main__":
         [1000, 1300, 1200, 1400, 1000, 800]
         ]
     
-    a = (getStats(data))
-    print(a.calculate())
-
+    #a = (getStats(data))
+    #print(a.calculate())
 
 
 """

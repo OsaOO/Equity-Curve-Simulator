@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <!-- Required meta tags -->
+        <!-- Required meta tags  style="float: right;" -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -93,12 +93,54 @@
                 </div>
             </div>
         </div>
-        <div class="simulationOutput">
-            <div class="outputSection graphSection">
+        <div class="simulationOutput" >
+            <div class="graphSection">
                 <div id="graph"></div>
             </div>
-            <div class="outputSection">
-                <h1></h1>
+            <div class="outputSection">  
+                <div class="totalStats">
+                    <h3 style="font-weight: bold; text-align: center;">Overall Simulation Stats</h3>
+                    <div class="statBox">
+                        <label>Average End Balance</label>
+                        <label id="avgBalance"></label>
+                    </div>
+                    <div class="statBox">
+                        <label>Max Simulation Balance</label>
+                        <label id="maxSim"></label>
+                    </div>
+                    <div class="statBox">
+                        <label>Avg Max Simulation Balance</label>
+                        <label id="avgMaxSim"></label>
+                    </div>
+                    <div class="statBox">
+                        <label>Min Simulation Balance</label>
+                        <label id="minSim"></label>
+                    </div>
+                    <div class="statBox">
+                        <label>Avg Min Simulation Balance</label>
+                        <label id="avgMinSim"></label>
+                    </div>
+                    <div class="statBox">
+                        <label>Maximum Consecutive Wins</label>
+                        <label id="maxConsecWins"></label>
+                    </div>
+                    <div class="statBox">
+                        <label>Maximum Consecutive Losses</label>
+                        <label id="maxConsecLoss"></label>
+                    </div>
+                    <div class="statBox">
+                        <label>Maximum Drawdown</label>
+                        <label id="maxDD"></label>
+                    </div>
+                    <div class="statBox">
+                        <label>Average Drawdown</label>
+                        <label id="avgDD"></label>
+                    </div>
+                
+                </div>
+                <div class="individualStats">
+                    <h3 style="font-weight: bold; text-align: center;">Individual Simulation Stats</h3>
+                </div>
             </div>
         </div>
     </div>

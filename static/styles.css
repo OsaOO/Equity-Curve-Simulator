@@ -24,7 +24,7 @@ Styling input controls sections
     margin-top: 20px;
     margin-bottom: 20px;
 }
-.inputControls {
+.inputControls, .outputSection {
     text-align: center;
     padding: 0px 20px;
     border: 1px solid black;
@@ -47,13 +47,24 @@ Styling input controls sections
 /*
 Stying Graph output section
 */
-.outputSection{
-    display: inline-block;
-    padding: 0px 45px;
+.simulationOutput {
+    display: flex;
 }
 .graphSection{
-    width:55%;
+    width:65%;
 }
+.outputSection{
+    padding: 0px 45px;
+}
+.totalStats{
+    display: flex;
+    flex-direction: column;   
+}
+
+
+
+
+
 
 /*
 Styling the Run SImulation Button

@@ -16,9 +16,12 @@ from flask import Flask, render_template, request, jsonify
 import random
 import plotly.graph_objects as go
 import plotly.io as pio
-from scr.RiskCalc import RiskSimulation
+
 import numpy as np
 import os.path
+
+from scr import RiskCalc
+from scr.StatsCalc import getOverallStats
 
 app = Flask(__name__)
 app.config['EXPLAIN_TEMPLATE_LOADING'] = True
@@ -30,8 +33,9 @@ def index():
 @app.route('/simulate', methods=['POST'])
 def simulate():
     data = request.json
-    print(data)
-    simulator = RiskSimulation(
+
+    # Runs the simulations and records the outcome 
+    simulations = RiskCalc.runSimulation(
         balance = data['balance'],
         winrate=data['win_rate'] / 100,
         riskPercentage=2,
@@ -40,12 +44,17 @@ def simulate():
         noSimulations=data['number_of_simulations'],
     )
 
-    # Runs the simulations and records the outcome 
-    outcomes = simulator.runSimulation()
+    # Gets a list of all simulation outcomes
+    outcomes = [sim.equityTracker for sim in simulations]
+
+    # Gets the stats based on the simulations outcome
+    statsOutcome = getOverallStats(simulations)
+    print(statsOutcome)
     
-    # Plots the outcome equity graph
+    # Returns data back to json function
+    # Json function then plots the outcome equity graph and displays stats data
     x_values = np.arange(0, data['number_of_trades'] + 1, 1).tolist()
-    return jsonify({'outcomes': outcomes, 'x_values': x_values})
+    return jsonify({'outcomes': outcomes, 'x_values': x_values, 'stats':statsOutcome})
 
 if __name__ == '__main__':
     app.run(debug=True)
