@@ -62,7 +62,6 @@ def simulate():
    
     # Gets the stats based on the simulations outcome
     statsOutcome = getOverallStats(simulations)
-    print(statsOutcome)
 
     # Adds fiigure object to seesion to then be plotted
     st.session_state.fig = fig
@@ -80,7 +79,22 @@ def main_page():
 
     # Adds Markdown of h to use input options
     with st.expander("**📖 About this Simulation Project**"):
-            st.markdown("ENTER Project information here")
+            st.markdown("""
+                        Welcome to the Equity Curve Simulator! 
+                        
+                        This tool is designed for traders and investors to visualize and understand the potential outcomes of their trading strategies over a series of trades.  
+                        By simulating equity curves, you can gain insights into the performance and risk of your strategy under various market conditions. 
+                        
+                        How It Works:
+                        - **Starting Balance**: Set the initial amount of capital you want to start with.
+                        - **Win Rate**: Define the percentage of trades you expect to win.
+                        - **Risk Percentage**: Choose the percentage of your capital you are willing to risk per trade.
+                        - **Risk-to-Reward Ratio**: Specify the ratio of potential profit to potential loss for each trade.
+                        - **Number of Trades**: Determine the number of trades to simulate.
+                        - **Number of Simulations**: Select how many different simulations you want to run to compare potential outcomes.
+                        
+                        *Adjust the starting balance, win rate, risk percentage, risk-to-reward ratio, number of trades, and number of simulations using intuitive sliders.* 
+                       """)
 
     # Adds divider to seperate header(s)
     st.divider()
@@ -104,19 +118,35 @@ def main_page():
 
             with col1:
                 st.subheader("Overall Simulation Stats")
-                st.write(
-                    f'''
-                        - Average End Balance = {st.session_state.stats["AvgEndBalance"]}
-                        - Max Equity = {st.session_state.stats["MaxEquity"]}
-                        - Average Max Equity = {st.session_state.stats["AvgMaxEquity"]}
-                        - Min Equity = {st.session_state.stats["MinEquity"]}
-                        - Average Min Equity = {st.session_state.stats["AvgMinEquity"]}
-                        - Max Consecutive Wins = {st.session_state.stats["MaxConsecWins"]}
-                        - Max Consecutive Losses = {st.session_state.stats["MaxConsecLoss"]}
-                        - Max Drawdown = {st.session_state.stats["MaxDrawdown"]}
-                        - Average Drawdown = {st.session_state.stats["AvgDrawdown"]}
-                    '''
-                        )
+                #rows = st.columns(2) * 5              
+                statsList = [f"""Average End Balance  
+                             {st.session_state.stats["AvgEndBalance"]}""",
+                             f'''Max Equity  
+                             {st.session_state.stats["MaxEquity"]}''',
+                             f'''Average Max Equity  
+                             {st.session_state.stats["AvgMaxEquity"]}''',
+                             f'''Min Equity  
+                             {st.session_state.stats["MinEquity"]}''',
+                             f'''Average Min Equity  
+                             {st.session_state.stats["AvgMinEquity"]}''',
+                             f'''Max Consec. Wins  
+                             {st.session_state.stats["MaxConsecWins"]}''',
+                             f'''Max Consec. Losses  
+                             {st.session_state.stats["MaxConsecLoss"]}''',
+                             f'''Max Drawdown  
+                             {st.session_state.stats["MaxDrawdown"]}''',
+                             f'''Average Drawdown  
+                             {st.session_state.stats["AvgDrawdown"]}'''
+                             ]
+                # Loops through statsList until empty
+                while len(statsList) > 0:
+                    # Creates a new row (row has 2 columns)
+                    row = st.columns(2)
+                    for col in row:
+                        if statsList: # Checks if any stats left (check needed again as it writes 2 before back to wile loop)
+                            tile = col.container(border=True) # Creates tile container
+                            tile.write(statsList.pop(0)) # Writes stat to tile
+                                    
             with col2:
                 st.html(
                         '''
@@ -124,14 +154,14 @@ def main_page():
                             <style>
                                 .divider-vertical-line {
                                     border-left: 2px solid rgba(49, 51, 63, 0.2);
-                                    height: 320px;
+                                    height: 420px;
                                     margin: auto;
                                 }
                             </style>
                         '''
                         )
             with col3:
-                st.subheader("Individual SImulation Stats")  
+                st.subheader("Individual Simulation Stats")  
 
     
 def config_sidebar():
