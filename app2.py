@@ -15,6 +15,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import plotly.graph_objects as go
+import time
 
 from scr import RiskCalc
 from scr.StatsCalc import getOverallStats, getSingleStats
@@ -34,8 +35,6 @@ def simulate():
         noSimulations = st.session_state.noSimulations,
     )
 
-    # Add spinner while simulation is running - ???
-
     # Gets a list of all simulation outcomes
     outcomes = [sim.equityTracker for sim in simulations]
     # Creates var holding x values (x value = Trade number)
@@ -47,19 +46,19 @@ def simulate():
     # Adds traces for each simulation
     for i, y_values in enumerate(outcomes, start=1):
         fig.add_trace(go.Scatter(x=x_values, y=y_values, mode='lines', 
-                                 name=f'Simulation {i}'))
+                                name=f'Simulation {i}'))
     
     # Configures figure
     fig.update_layout(
         title = {'text': 'Equity Curves',
-                 'x':0.5,
-                 'xanchor': 'center',
-                 'yanchor': 'top',
-                 'font': {'size':32}},
+                'x':0.5,
+                'xanchor': 'center',
+                'yanchor': 'top',
+                'font': {'size':32}},
         xaxis_title = "Number of Trades",
         yaxis_title = "Account Balance",
     )
-   
+
     # Gets the stats based on the simulations outcome
     statsOverall = getOverallStats(simulations)
 
@@ -69,10 +68,17 @@ def simulate():
     st.session_state.fig = fig
     # Adds the stats to the session state
     st.session_state.stats = statsOverall
+    
+    #alert = st.empty()
+    alert = st.success('Simulation Completed!', icon="✅")
+    # Waits 3 seconds then clears the success message
+    time.sleep(3)
+    alert.empty()
 
 def individualSimStats():
     """
     Gets the stats for a specific simulation
+    Simulation label stored in "st.session_state.SimSelect" session variable (output of selectbox)
     """
     if "SimSelect" in st.session_state:
         # Gets the number from the label (the requested simulation number)
@@ -131,8 +137,7 @@ def main_page():
             col1, col2, col3 = st.columns([10.9, 0.2, 10.9], vertical_alignment="top")
 
             with col1:
-                st.subheader("Overall Simulation Stats")
-                #rows = st.columns(2) * 5              
+                st.subheader("Overall Simulation Stats")           
                 statsList = [f"""Average End Balance  
                              {st.session_state.stats["AvgEndBalance"]}""",
                              f'''Max Equity  
@@ -215,7 +220,6 @@ def main_page():
                                 tile = col.container(border=True) # Creates tile container
                                 tile.write(statsList.pop(0)) # Writes stat to tile
                             
-
 def config_sidebar():
     """
     Setup and display the sidebar elements.
@@ -248,7 +252,7 @@ def config_sidebar():
             #Inputs (sliders) - Slider inputs: min val, max max, value, step
             st.slider('Starting Balance', 1000, 100000, 10000, 1000, key="balance")
             st.slider('Win Rate (%)', 0, 100, 35, 1, key="winrate")
-            st.slider('Risk Percentage (%)', 1, 10, 1, 1, key="riskPercentage")
+            st.slider('Risk Percentage (%)', 0.5, 5.0, 1.0, 0.5, key="riskPercentage")
             st.slider('Risk-to-Reward Ratio', 0.5, 10.0, 2.5, 0.25, key="riskReward")
             st.slider('Number of Trades', 50, 500, 300, step=50, key="noTrades")
             st.slider('Number of Simulations', 1, 100, 10, step=1, key="noSimulations")    
