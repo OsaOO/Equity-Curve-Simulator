@@ -1,9 +1,7 @@
 """
 Author: OsaO
-Date Created: 19/05/2024
-
 Last Updated By: OsaO
-Last Updated Date: 21/06/2024
+Last Updated Date: 16/07/2024
 
 Summary:
 Risk simulator showing potential equity curve for a trading strategy with defined parameters.
@@ -147,7 +145,7 @@ def runSimulation(balance, winrate, riskPercentage, riskReward, noTrades, noSimu
         sim = SimulationItem(balance, winrate, riskPercentage, riskReward, noTrades, simType)
         t = threading.Thread(target=sim.run())
         threads.append(t)
-        simulations. append(sim) # Appends the simulation class to the list of simulations
+        simulations.append(sim) # Appends the simulation class to the list of simulations
 
     # Starts all threads
     for x in threads:
