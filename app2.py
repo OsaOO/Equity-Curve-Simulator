@@ -1,17 +1,13 @@
 """
 Author: OsaO
-Date Created: 20/05/2024
-
 Last Updated By: OsaO
-Last Updated Date: 10/07/2024
+Last Updated Date: 16/07/2024
 
 Summary:
 App 2.0 which uses StreamLit to create the UI (no need for html / css)
 
 TO-DO:
-- Write code to get individual stats
 - Make stats section look nicer
-- Add discription about the project
 - Add links to Github in required places
 """
 
@@ -21,9 +17,13 @@ import numpy as np
 import plotly.graph_objects as go
 
 from scr import RiskCalc
-from scr.StatsCalc import getOverallStats
+from scr.StatsCalc import getOverallStats, getSingleStats
 
 def simulate():
+    # Resets required session variables (So individual stats section not displayed till one selected)
+    if "individualStats" in st.session_state:
+        del st.session_state["individualStats"]
+
     # Runs Simulation
     simulations = RiskCalc.runSimulation(
         balance = st.session_state.balance,
@@ -61,12 +61,26 @@ def simulate():
     )
    
     # Gets the stats based on the simulations outcome
-    statsOutcome = getOverallStats(simulations)
+    statsOverall = getOverallStats(simulations)
 
-    # Adds fiigure object to seesion to then be plotted
+    # Adds current simulations to session state
+    st.session_state.simulations = simulations
+    # Adds figure object to seesion to then be plotted
     st.session_state.fig = fig
     # Adds the stats to the session state
-    st.session_state.stats = statsOutcome
+    st.session_state.stats = statsOverall
+
+def individualSimStats():
+    """
+    Gets the stats for a specific simulation
+    """
+    if "SimSelect" in st.session_state:
+        # Gets the number from the label (the requested simulation number)
+        if st.session_state.SimSelect: # Only performs following if label is not null (something is selected)
+            reqSimNum = int(((st.session_state.SimSelect).replace("Simulation", "")).strip())
+
+            # Gets the stats for that requested simulation
+            st.session_state.individualStats = getSingleStats(st.session_state.simulations[reqSimNum - 1])
 
 def main_page():
     """
@@ -133,11 +147,12 @@ def main_page():
                              {st.session_state.stats["MaxConsecWins"]}''',
                              f'''Max Consec. Losses  
                              {st.session_state.stats["MaxConsecLoss"]}''',
-                             f'''Max Drawdown  
+                             f'''Max Drawdown (%)  
                              {st.session_state.stats["MaxDrawdown"]}''',
-                             f'''Average Drawdown  
+                             f'''Average Drawdown (%)  
                              {st.session_state.stats["AvgDrawdown"]}'''
                              ]
+                
                 # Loops through statsList until empty
                 while len(statsList) > 0:
                     # Creates a new row (row has 2 columns)
@@ -161,9 +176,46 @@ def main_page():
                         '''
                         )
             with col3:
-                st.subheader("Individual Simulation Stats")  
+                st.subheader("Individual Simulation Stats")
 
-    
+                simLength = len(st.session_state.simulations)
+                labels = [f"Simulation {i}" for i in range(1, simLength+1)]
+
+                option = st.selectbox("Select simulation from the dropdown to view individual stats!",
+                                    labels,
+                                    index=None,
+                                    placeholder="Select Simulation...",
+                                    on_change=individualSimStats,
+                                    key="SimSelect"
+                                    )
+                
+                if "individualStats" in st.session_state:
+                    statsList = [f"""Start Balance  
+                                {st.session_state.individualStats["StartBalance"]}""",
+                                f'''End Balance  
+                                {st.session_state.individualStats["EndBalance"]}''',
+                                f'''Max Equity  
+                                {st.session_state.individualStats["MaxEquity"]}''',
+                                f'''Min Equity  
+                                {st.session_state.individualStats["MinEquity"]}''',
+                                f'''Max Consec. Wins  
+                                {st.session_state.individualStats["MaxConsecWins"]}''',
+                                f'''Max Consec. Losses  
+                                {st.session_state.individualStats["MaxConsecLoss"]}''',
+                                f'''Max Drawdown (%)  
+                                {st.session_state.individualStats["MaxDrawdown"]}'''
+                                ]
+                    
+                    # Loops through statsList until empty
+                    while len(statsList) > 0:
+                        # Creates a new row (row has 2 columns)
+                        row = st.columns(2)
+                        for col in row:
+                            if statsList: # Checks if any stats left (check needed again as it writes 2 before back to wile loop)
+                                tile = col.container(border=True) # Creates tile container
+                                tile.write(statsList.pop(0)) # Writes stat to tile
+                            
+
 def config_sidebar():
     """
     Setup and display the sidebar elements.
