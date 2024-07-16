@@ -1,36 +1,39 @@
 """
 Author: OsaO
-Date Created: 10/06/2024
-
 Last Updated By: OsaO
-Last Updated Date: 10/06/2024
+Last Updated Date: 16/07/2024
 
 Summary:
 Calculates stats based off account balace progression
 
 Stats Calculated:
-- End Average Balance, Max Equity, Min Equity
-
-Stats to add:
-- Average Max Equity, Average Min Equity
+- End Average Balance, Max Equity, Min Equity, Average Max Equity, Average Min Equity
 """
 
 import numpy as np
 import timeit
 
 def getOverallStats(simOutputs):
-    # Gets stats relating to the overall simulation output
+    """
+    Generates the stats based on all simulations ran
 
-    # Creates a dictionary that stores the stats once calculated
+    simOutputs (arg) - A list containing all the simulation objects
+    """
+
+    # Creates a stats dictionary that stores the stats once calculated
     # This dictionary object is then returned at completion
-
     global stats
     stats = {}
 
+    """
     # Gets the Equity data from the simulations and put into np array
     equityData = np.array([output.equityTracker for output in simOutputs])
 
-    # Stats that relate to the simulation run as a whole
+    - Above currently not in use.
+      Tested speed of required data extraction and was slightly slower than current method
+    """
+
+    # Calls required functions to get stats
     
     avgEndBalance(simOutputs)
 
@@ -51,8 +54,25 @@ def getOverallStats(simOutputs):
     # Returns the stats
     return stats
 
-def getSingleStats():
-    # gets stats that relate to an individual simulation from total simulations run
+def getSingleStats(simulation):
+    """
+    Gets stats based of one individual simulation
+
+    simulation (arg) - Selected simulation object
+    """
+    # Creates a stats dictionary that stores the stats once calculated
+    # This dictionary object is then returned at completion
+    global stats
+    stats = {}
+    
+    # Adds Stats
+    stats["StartBalance"] = simulation.equityTracker[0]
+    stats["EndBalance"] = round(simulation.accBalance, 2)
+    stats["MaxEquity"] = round(simulation.maxEquity, 2)
+    stats["MinEquity"] = round(simulation.minEquity, 2)
+    stats["MaxDrawdown"] = round(simulation.maxDrawdown, 2)
+    stats["MaxConsecWins"] = simulation.maxWin
+    stats["MaxConsecLoss"] = simulation.maxLoss
 
     # Returns the stats
     return stats
@@ -123,17 +143,3 @@ if __name__ == "__main__":
     
     #a = (getStats(data))
     #print(a.calculate())
-
-
-"""
-Code used for comparing time of functions
-
-
-    c1 = '''stats["MaxEquity"] = round((equityData).max(), 2)'''
-    c2 = '''stats["MaxEquity"] = round(max([sim.maxEquity for sim in simOutputs]), 2)'''
-
-    #t = timeit.Timer(lambda: maxEquity(equityData))
-    print(timeit.repeat(lambda: c1, repeat=5))
-    #t2 = timeit.Timer(lambda: maxEquity2(simOutputs))
-    print(timeit.repeat(lambda: c2, repeat=5))
-"""
