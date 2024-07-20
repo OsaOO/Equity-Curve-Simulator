@@ -9,7 +9,9 @@ Risk simulator showing potential equity curve for a trading strategy with define
                   Number of trades taken, Number of simulations wanted 
 
 TO-DO:
+    - Add different risk simulation options
     - Calculations assume balance > 0 (not negative). E,g max drawdown calculation. Something to think about
+        - End simulation once hit 0?? (test out)
 """
 from random import choices
 import matplotlib.pyplot as plt

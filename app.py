@@ -10,7 +10,7 @@ TO-DO:
 - Make stats section look nicer
 - Add links to Github in required places
 """
-
+import os
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -94,7 +94,7 @@ def main_page():
     """
 
     # Streamlit UI
-    st.title('Equity Curve Simulator')
+    st.title('Equity Curve Simulator :chart_with_upwards_trend:')
     st.subheader('By Osa.OO')
 
     # Adds Markdown of h to use input options
@@ -229,7 +229,7 @@ def config_sidebar():
 
     # Creates a sidebar where the input controls are stored
     with st.sidebar:
-        st.title("Simulation Inputs :chart_with_upwards_trend:")
+        st.title("Simulation Inputs :1234:")
         st.caption("*Made by Osa.OO*")
         
         # Adds divider
@@ -262,10 +262,14 @@ def main():
     Main function to run the Streamlit application.
         - initializes the sidebar configuration and the main page layout.
      """
-    
+    # Initialize page config
+    ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
+    favicon = (os.path.join(ROOT_DIR, "static", "favicon.png"))
+
     # Sets Page config of the Streamlit Application
     st.set_page_config(page_title='Equity Curve Simulator', layout='wide',
                        initial_sidebar_state=st.session_state.get('sidebar_state', 'expanded'),
+                       page_icon=favicon,
     )
     
     # Runs functions to display required UI elements

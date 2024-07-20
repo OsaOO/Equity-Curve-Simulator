@@ -1,4 +1,7 @@
-matplotlib.pyplot
+streamlit
+pandas
 numpy
-threading
-choices
+plotly
+numpy
+timeit
+matplotlib
