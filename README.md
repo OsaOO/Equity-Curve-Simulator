@@ -5,18 +5,18 @@ Welcome to the Equity Curve Simulator! This tool is designed for traders and inv
 ![Equity Curve Simulator Interface](path/to/your/image.png)
 
 ## Features
-- **<u>Interactive Inputs</u>**: Adjust the starting balance, win rate, risk percentage, risk-to-reward ratio, number of trades, and number of simulations using intuitive sliders.
-- **<u>Quick Simulation</u>**: Instantly see the impact of your input parameters on the equity curve with dynamic simulations.
-- **<u>Visual Representation</u>**: View multiple equity curves on a single graph to compare different simulations and identify patterns.
-- **<u>User-Friendly Interface</u>**: Enjoy a modern and responsive design, making it easy to navigate and use.
+- **Interactive Inputs**: Adjust the starting balance, win rate, risk percentage, risk-to-reward ratio, number of trades, and number of simulations using intuitive sliders.
+- **Quick Simulation**: Instantly see the impact of your input parameters on the equity curve with dynamic simulations.
+- **Visual Representation**: View multiple equity curves on a single graph to compare different simulations and identify patterns.
+- **User-Friendly Interface**: Enjoy a modern and responsive design, making it easy to navigate and use.
 
 ## How It Works
-1. **<u>Starting Balance</u>**: Set the initial amount of capital you want to start with.
-2. **<u>Win Rate</u>**: Define the percentage of trades you expect to win.
-3. **<u>Risk Percentage</u>**: Choose the percentage of your capital you are willing to risk per trade.
-4. **<u>Risk-to-Reward Ratio</u>**: Specify the ratio of potential profit to potential loss for each trade.
-5. **<u>Number of Trades</u>**: Determine the number of trades to simulate.
-6. **<u>Number of Simulations</u>**: Select how many different simulations you want to run to compare potential outcomes.
+1. **Starting Balance**: Set the initial amount of capital you want to start with.
+2. **Win Rate**: Define the percentage of trades you expect to win.
+3. **Risk Percentage**: Choose the percentage of your capital you are willing to risk per trade.
+4. **Risk-to-Reward Ratio**: Specify the ratio of potential profit to potential loss for each trade.
+5. **Number of Trades**: Determine the number of trades to simulate.
+6. **Number of Simulations**: Select how many different simulations you want to run to compare potential outcomes.
 
 ## Purpose
 The Equity Curve Simulator helps traders evaluate the robustness and viability of their trading strategies by simulating the financial outcomes over a series of trades. It serves as a valuable tool for risk management and strategic planning, enabling you to make informed decisions based on simulated performance data.
