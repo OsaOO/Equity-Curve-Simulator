@@ -95,7 +95,7 @@ def main_page():
 
     # Streamlit UI
     st.title('Equity Curve Simulator :chart_with_upwards_trend:')
-    st.subheader('By Osa.OO')
+    st.subheader('By Osa.OO(https://github.com/OsaOO)')
 
     # Adds Markdown of h to use input options
     with st.expander("**📖 About this Simulation Project**"):
@@ -230,7 +230,7 @@ def config_sidebar():
     # Creates a sidebar where the input controls are stored
     with st.sidebar:
         st.title("Simulation Inputs :1234:")
-        st.caption("*Made by Osa.OO*")
+        st.caption("*Made by Osa.OO*(https://github.com/OsaOO)")
         
         # Adds divider
         st.write("---")
