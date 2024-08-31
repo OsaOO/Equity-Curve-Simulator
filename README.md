@@ -2,7 +2,7 @@
 
 Welcome to the Equity Curve Simulator! This tool is designed for traders and investors to visualize and understand the potential outcomes of their trading strategies over a series of trades. By simulating equity curves, you can gain insights into the performance and risk of your strategy under various market conditions.
 
-![Equity Curve Simulator Interface](path/to/your/image.png)
+![Equity Curve Simulator Interface](static/dashImg.PNG)
 
 ## Features
 - **Interactive Inputs**: Adjust the starting balance, win rate, risk percentage, risk-to-reward ratio, number of trades, and number of simulations using intuitive sliders.
